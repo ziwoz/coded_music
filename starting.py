@@ -3,11 +3,9 @@ import random
 
 from notes import Piano
 
-# degrees = [60, 62, 64, 65, 67, 69, 71, 72]  # MIDI note number
 
-degrees = Piano.get_notes()
+degrees = Piano.get_scale(key="a", scale="minor")
 
-# degrees = range(12, 100)
 track = 0
 channel = 0
 time = 0  # In beats
@@ -21,7 +19,7 @@ MyMIDI = MIDIFile(1)  # One track, defaults to format 1 (tempo track
 # automatically created)
 MyMIDI.addTempo(track, time, tempo)
 
-for note in degrees[42:52]:
+for note in degrees:
     pitch = note.get("pitch")
     for i in range(1):
         volume = random.choice(volume_choices)
@@ -30,10 +28,10 @@ for note in degrees[42:52]:
             channel=channel,
             pitch=pitch + i,
             time=time,
-            duration=duration / 8,
+            duration=duration,
             volume=volume,
         )
-    time = time + 1 / 8
+    time = time + 1
 
 with open("major-scale.mid", "wb") as output_file:
     MyMIDI.writeFile(output_file)
